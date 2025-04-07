@@ -26,7 +26,7 @@ public class FuncionarioService {
     }
 
     public Funcionario salvar(@Valid @RequestBody Funcionario funcionario){
-        if(funcionarioRepository.findById(funcionario.getId()).isPresent()){
+        if(funcionarioRepository.FindByMatricula(funcionario.getMatricula()).isPresent()){
             throw new RuntimeException("Email já cadastrado.");
         }
         return funcionarioRepository.save(funcionario);
@@ -43,8 +43,8 @@ public class FuncionarioService {
         return funcionarioRepository.save(funcionario);
     }
 
-    public void excluir(@PathVariable Long id){
-        Funcionario funcionario = funcionarioRepository.findById(id)
+    public void excluir(String matricula){
+        Funcionario funcionario = funcionarioRepository.FindByMatricula(matricula)
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
         funcionarioRepository.deleteById(funcionario.getId());

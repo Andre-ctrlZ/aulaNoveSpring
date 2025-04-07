@@ -1,6 +1,8 @@
 package com.example.aulaNoveSpring.controller;
 
+import com.example.aulaNoveSpring.model.Cliente;
 import com.example.aulaNoveSpring.model.Usuario;
+import com.example.aulaNoveSpring.service.ClienteService;
 import com.example.aulaNoveSpring.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,34 +15,34 @@ import java.util.Map;
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
-    private UsuarioService usuarioService;
+    private ClienteService clienteService;
 
-    public UsuarioController(UsuarioService usuarioService){
-        this.usuarioService = usuarioService;
+    public ClienteController(ClienteService clienteService){
+        this.clienteService = clienteService;
     }
 
     @GetMapping
-    public List<Usuario> listarTodos(){
-        return usuarioService.listarTodos();
+    public List<Cliente> listarTodos(){
+        return clienteService.listarTodos();
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> salvar(@Valid @RequestBody Usuario usuario){
-        usuarioService.salvar(usuario);
+    public ResponseEntity<Map<String, Object>> salvar(@Valid @RequestBody Cliente cliente){
+        clienteService.salvar(cliente);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Map.of("Mensagem", usuarioService.mensagem(usuario)));
+                .body(Map.of("Mensagem", usuarioService.mensagem(cliente)));
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> atualizar(@Valid @RequestBody Usuario usuario){
-        usuarioService.atualizar(usuario);
-        return ResponseEntity.ok().body(Map.of("Mensagem", usuarioService.mensagemAtualizar(usuario)));
+    public ResponseEntity<Map<String, Object>> atualizar(@Valid @RequestBody Cliente cliente){
+        clienteService.atualizar(cliente);
+        return ResponseEntity.ok().body(Map.of("Mensagem", clienteService.mensagemAtualizar(cliente)));
     }
 
     @DeleteMapping("/{email}")
     public ResponseEntity<Map<String, Object>> excluir(@PathVariable String email){
-        usuarioService.excluir(email);
+        clienteService.excluir(email);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Map.of("Mensagem", "Usuario excluído com sucesso!"));
+                .body(Map.of("Mensagem", "Cliente excluído com sucesso!"));
     }
 }
